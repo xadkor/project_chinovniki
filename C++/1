@@ -60,7 +60,7 @@ void PrintTree(const Node* node,
 // готовый пример 
 void CreateExample(Tree& tree, Node**& nodes) {
   const int n = 5;
-  nodes = new Node*[n + 1]();
+  nodes = new Node*[n + 1];
 
   nodes[1] = tree.CreateNode(1, 10);
   nodes[2] = tree.CreateNode(2, 5);
@@ -88,7 +88,7 @@ void CreateCustom(Tree& tree, Node**& nodes) {
     return;
   }
 
-  nodes = new Node*[n + 1]();
+  nodes = new Node*[n + 1];
 
   std::cout << "\nФормат: [начальник] [взятка]\n";
   std::cout << "Главный чиновник: начальник = -1\n\n";
@@ -99,29 +99,16 @@ void CreateCustom(Tree& tree, Node**& nodes) {
     int parent = ReadInt();
     int cost = ReadInt();
 
-    if (cost < 0) {
-      std::cout << "Ошибка: взятка не может быть отрицательной!\n";
-      i--;
-      continue;
-    }
-
-    if (parent < -1) {
-      std::cout << "Ошибка: начальник не может быть отрицательным!\n";
-      i--;
-      continue;
-    }
+    nodes[i] = tree.CreateNode(i, cost);
 
     if (parent == -1) {
-      nodes[i] = tree.CreateNode(i, cost);
       tree.SetRoot(nodes[i]);
     } else {
-      if (parent < 1 || parent >= i || !nodes[parent]) {
+      if (parent < 1 || parent > n) {
         std::cout << "Ошибка: неверный начальник!\n";
         i--;
         continue;
       }
-
-      nodes[i] = tree.CreateNode(i, cost);
       tree.AddChild(nodes[parent], nodes[i]);
     }
   }
